@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storytelling — Mesa Interativa · IHC 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink2: #4a4740;
+    --ink3: #8a8680;
+    --paper: #f7f4ef;
+    --paper2: #ede9e2;
+    --paper3: #ddd8cf;
+    --accent: #b8431a;
+    --accent2: #e8914a;
+    --teal: #1a6e5c;
+    --blue: #1a4a8a;
+    --gold: #c9952a;
+    --border: rgba(26,24,20,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 5rem 6rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(184,67,26,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(26,74,138,0.15) 0%, transparent 60%);
+  }
+
+  .cover-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .cover-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent2);
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700;
+    color: #f7f4ef;
+    line-height: 1.08;
+    max-width: 700px;
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: var(--accent2);
+  }
+
+  .cover-sub {
+    font-size: 1rem;
+    color: rgba(247,244,239,0.55);
+    font-weight: 300;
+    position: relative;
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 2rem;
+    position: relative;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .meta-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(247,244,239,0.4);
+  }
+
+  .meta-value {
+    font-size: 0.85rem;
+    color: rgba(247,244,239,0.75);
+    font-weight: 400;
+  }
+
+  .cover-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(247,244,239,0.3);
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cover-scroll::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: rgba(247,244,239,0.2);
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    padding: 5rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: var(--paper3);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .section-info {}
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 4px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* ── PERSONA ── */
+  .persona-card {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 16px;
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .persona-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .persona-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: #f7f4ef;
+    margin-bottom: 4px;
+  }
+
+  .persona-role {
+    font-size: 0.8rem;
+    color: var(--accent2);
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+  }
+
+  .persona-desc {
+    font-size: 0.9rem;
+    color: rgba(247,244,239,0.65);
+    line-height: 1.8;
+  }
+
+  .persona-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+
+  .ptag {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid rgba(247,244,239,0.18);
+    color: rgba(247,244,239,0.6);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── STORYBOARD ── */
+  .sb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .sb-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .sb-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(26,24,20,0.1);
+  }
+
+  .sb-scene {
+    height: 160px;
+    background: var(--paper2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sb-body {
+    padding: 14px 16px 16px;
+  }
+
+  .sb-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .sb-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--paper3);
+    font-weight: 400;
+  }
+
+  .sb-tag {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+
+  .tag-conflict { background: #fde8e1; color: #8a2210; }
+  .tag-call     { background: #e1eaf9; color: #1a3a7a; }
+  .tag-aid      { background: #e1f0eb; color: #0f5040; }
+  .tag-deep     { background: #ede1f9; color: #4a1a8a; }
+  .tag-return   { background: #e8f3e1; color: #2a5010; }
+
+  .sb-title {
+    font-weight: 500;
+    font-size: 0.92rem;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .sb-desc {
+    font-size: 0.82rem;
+    color: var(--ink2);
+    line-height: 1.6;
+  }
+
+  /* ── ROTEIRO ── */
+  .acts {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .act-block {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0 3rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .act-block:last-child { border-bottom: none; }
+
+  .act-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 3px;
+  }
+
+  .act-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--paper3);
+    line-height: 1;
+  }
+
+  .act-tag {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    align-self: flex-start;
+  }
+
+  .act-name {
+    font-size: 0.78rem;
+    color: var(--ink3);
+    font-style: italic;
+  }
+
+  .act-right {}
+
+  .act-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .act-text {
+    font-size: 0.92rem;
+    color: var(--ink2);
+    line-height: 1.85;
+  }
+
+  /* ── IHC NOTE ── */
+  .ihc-note {
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 2.5rem 3rem;
+    color: var(--paper);
+    margin-top: 3rem;
+  }
+
+  .ihc-note-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ihc-note-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(247,244,239,0.15);
+  }
+
+  .ihc-note-text {
+    font-size: 0.95rem;
+    color: rgba(247,244,239,0.7);
+    line-height: 1.9;
+  }
+
+  .ihc-note-text strong {
+    color: var(--paper);
+    font-weight: 500;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 4rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(247,244,239,0.35);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .cover { padding: 4rem 2rem; }
+    .section { padding: 3.5rem 1.5rem; }
+    .act-block { grid-template-columns: 1fr; gap: 1rem; }
+    .act-left { flex-direction: row; align-items: center; flex-wrap: wrap; }
+    .act-num { font-size: 1.5rem; }
+    .persona-card { grid-template-columns: 1fr; }
+    .cover-scroll { display: none; }
+    .cover-meta { flex-wrap: wrap; gap: 1rem; }
+    .ihc-note { padding: 1.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <p class="cover-label">IHC 2026 · CESAR School</p>
+  <h1 class="cover-title">A Noite que Marina<br><em>Parou de Esperar</em></h1>
+  <p class="cover-sub">Storytelling com Jornada do Herói aplicado ao projeto Mesa Interativa para Restaurantes. Atividade prática da segunda unidade — 3 pontos.</p>
+  <div class="cover-meta">
+    <div class="meta-item">
+      <span class="meta-label">Equipe</span>
+      <span class="meta-value">Matheus Larré · Gabriel Brito · Cauã Rêgo · João Pedro</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Professor</span>
+      <span class="meta-value">Prof. Msc Ricardo Baudel</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Projeto</span>
+      <span class="meta-value">Mesa Interativa — Haus Restaurante</span>
+    </div>
+  </div>
+  <p class="cover-scroll">scroll</p>
+</div>
+
+<!-- PERSONA -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">00</div>
+    <div class="section-info">
+      <p class="section-label">Persona</p>
+      <h2 class="section-title">Quem é a nossa heroína?</h2>
+    </div>
+  </div>
+
+  <div class="persona-card">
+    <div class="persona-avatar">M</div>
+    <div>
+      <p class="persona-name">Marina Sousa</p>
+      <p class="persona-role">34 anos · Consultora de negócios · Recife, PE</p>
+      <p class="persona-desc">Marina janta fora com frequência — tanto em reuniões de trabalho quanto com amigos. Ela valoriza autonomia, detesta esperar sem motivo e tem pouca tolerância para processos desnecessariamente lentos. É confortável com tecnologia e espera que restaurantes acompanhem o mesmo nível de eficiência que exige de tudo na vida.</p>
+      <div class="persona-tags">
+        <span class="ptag">Autônoma</span>
+        <span class="ptag">Impaciente com ineficiência</span>
+        <span class="ptag">Tech-savvy</span>
+        <span class="ptag">Janta fora 3x/semana</span>
+        <span class="ptag">Valoriza experiência</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- STORYBOARD -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-info">
+      <p class="section-label">Storyboard</p>
+      <h2 class="section-title">A jornada em 8 cenas</h2>
+    </div>
+  </div>
+
+  <div class="sb-grid">
+
+    <!-- Cena 1 -->
+    <div class="sb-card">
+      <div class="sb-scene">
+        <svg viewBox="0 0 220 160" width="220" height="160">
+          <circle cx="110" cy="46" r="18" fill="none" stroke="#4a4740" stroke-width="1.8"/>
+          <line x1="110" y1="64" x2="110" y2="98" stroke="#4a4740" stroke-width="1.8"/>
+          <line x1="110" y1="76" x2="90" y2="90" stroke="#4a4740" stroke-width="1.8"/>
+          <line x1="110" y1="76" x2="130" y2="90" stroke="#4a4740" stroke-width="1.8"/>
+          <line x1="110" y1="98" x2="96" y2="122" stroke="#4a4740" stroke-width="1.8"/>
+          <line x1="110" y1="98" x2="124" y2="122" stroke="#4a4740" stroke-width="1.8"/>
+          <path d="M103 46 Q110 52 117 46" fill="none" stroke="#4a4740" stroke-width="1.4"/>
+          <rect x="40" y="126" width="140" height="5" rx="2" fill="#ddd8cf"/>
+          <rect x="40" y="136" width="140" height="3" rx="1.5" fill="#ddd8cf" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-top">
+          <span class="sb-num">01</span>
+          <span class="sb-tag tag-aid">mundo comum</span>
+        </div>
+        <p class="sb-title">O mundo comum</p>
+        <p class="sb-desc">Marina chega ao Haus animada e com fome, após uma semana intensa de trabalho.</p>
+      </div>
+    </div>
+
+    <!-- Cena 2 -->
+    <div class="sb-card">
+      <div class="sb-scene">
+        <svg viewBox="0 0 220 160" width="220" height="160">
+          <circle cx="68" cy="42" r="16" fill="none" stroke="#4a4740" stroke-width="1.8"/>
+          <line x1="68" y1="58" x2="68" y2="86" stroke="#4a4740" stroke-width="1.8"/>
+          <line x1="68" y1="68" x2="50" y2="80" stroke="#4a4740" stroke-width="1.8"/>
+          <line x1="68" y1="68" x2="88" y2="56" stroke="#4a4740" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M61 42 Q68 38 75 42" fill="none" stroke="#8a2210" stroke-width="1.4"/>
+          <!-- waiter far -->
+          <circle cx="172" cy="52" r="12" fill="none" stroke="#8a8680" stroke-width="1" opacity="0.4"/>
+          <line x1="172" y1="64" x2="172" y2="86" stroke="#8a8680" stroke-width="1" opacity="0.4"/>
+          <!-- clock -->
+          <circle cx="148" cy="34" r="15" fill="none" stroke="#8a8680" stroke-width="1" opacity="0.5"/>
+          <line x1="148" y1="34" x2="148" y2="24" stroke="#8a8680" stroke-width="1.4" opacity="0.5"/>
+          <line x1="148" y1="34" x2="156" y2="40" stroke="#8a8680" stroke-width="1.4" opacity="0.5"/>
+          <!-- wait lines -->
+          <line x1="90" y1="96" x2="130" y2="96" stroke="#c9952a" stroke-width="1" opacity="0.4" stroke-dasharray="4 3"/>
+          <text x="110" y="112" text-anchor="middle" font-size="9" fill="#8a8680" font-family="DM Sans, sans-serif">10 min...</text>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-top">
+          <span class="sb-num">02</span>
+          <span class="sb-tag tag-conflict">conflito</span>
+        </div>
+        <p class="sb-title">O chamado à aventura</p>
+        <p class="sb-desc">Garçons sobrecarregados. Marina acena três vezes sem ser atendida. A frustração aumenta.</p>
+      </div>
+    </div>
+
+    <!-- Cena 3 -->
+    <div class="sb-card">
+      <div class="sb-scene">
+        <svg viewBox="0 0 220 160" width="220" height="160">
+          <rect x="72" y="62" width="76" height="58" rx="7" fill="none" stroke="#4a4740" stroke-width="1.8"/>
+          <rect x="78" y="68" width="64" height="44" rx="4" fill="#e1eaf9" opacity="0.8"/>
+          <text x="110" y="95" text-anchor="middle" font-size="8" fill="#1a3a7a" font-family="DM Sans, sans-serif">Bem-vindo</text>
+          <text x="110" y="106" text-anchor="middle" font-size="7" fill="#4a6a9a" font-family="DM Sans, sans-serif">à sua mesa</text>
+          <rect x="72" y="62" width="76" height="58" rx="7" fill="none" stroke="#1a4a8a" stroke-width="1" opacity="0.35" stroke-dasharray="3 3"/>
+          <circle cx="110" cy="34" r="14" fill="none" stroke="#4a4740" stroke-width="1.5"/>
+          <line x1="110" y1="48" x2="110" y2="63" stroke="#4a4740" stroke-width="1.5"/>
+          <!-- question marks -->
+          <text x="150" y="75" font-size="13" fill="#8a8680" font-family="serif">?</text>
+          <text x="62" y="80" font-size="11" fill="#8a8680" font-family="serif">?</text>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-top">
+          <span class="sb-num">03</span>
+          <span class="sb-tag tag-call">chamado</span>
+        </div>
+        <p class="sb-title">O mentor aparece</p>
+        <p class="sb-desc">Marina nota o tablet na mesa. A interface limpa e acolhedora a convida a experimentar.</p>
+      </div>
+    </div>
+
+    <!-- Cena 4 -->
+    <div class="sb-card">
+      <div class="sb-scene">
+        <svg viewBox="0 0 220 160" width="220" height="160">
+          <rect x="62" y="36" width="96" height="72" rx="7" fill="none" stroke="#4a4740" stroke-width="1.8"/>
+          <rect x="68" y="42" width="84" height="58" rx="4" fill="#e1eaf9" opacity="0.4"/>
+          <ellipse cx="110" cy="74" rx="9" ry="14" fill="none" stroke="#4a4740" stroke-width="1.5"/>
+          <line x1="110" y1="88" x2="110" y2="112" stroke="#4a4740" stroke-width="1.5"/>
+          <circle cx="110" cy="74" r="20" fill="none" stroke="#1a4a8a" stroke-width="0.8" opacity="0.4"/>
+          <circle cx="110" cy="74" r="30" fill="none" stroke="#1a4a8a" stroke-width="0.5" opacity="0.2"/>
+          <path d="M90 70 L104 84 L132 56" fill="none" stroke="#1a6e5c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-top">
+          <span class="sb-num">04</span>
+          <span class="sb-tag tag-aid">limiar</span>
+        </div>
+        <p class="sb-title">A travessia do limiar</p>
+        <p class="sb-desc">Marina toca "Chamar o Garçom". Em segundos, confirmação na tela. Ela tem controle.</p>
+      </div>
+    </div>
+
+    <!-- Cena 5 -->
+    <div class="sb-card">
+      <div class="sb-scene">
+        <svg viewBox="0 0 220 160" width="220" height="160">
+          <rect x="48" y="20" width="124" height="100" rx="7" fill="none" stroke="#4a4740" stroke-width="1.8"/>
+          <circle cx="72" cy="50" r="13" fill="#fde8e1" opacity="0.8"/>
+          <rect x="92" y="40" width="66" height="9" rx="3" fill="#ddd8cf"/>
+          <rect x="92" y="53" width="46" height="7" rx="2.5" fill="#ddd8cf" opacity="0.6"/>
+          <circle cx="72" cy="82" r="13" fill="#e1f0eb" opacity="0.8"/>
+          <rect x="92" y="72" width="66" height="9" rx="3" fill="#ddd8cf"/>
+          <rect x="92" y="85" width="46" height="7" rx="2.5" fill="#ddd8cf" opacity="0.6"/>
+          <!-- filter chips -->
+          <rect x="55" y="106" width="30" height="10" rx="5" fill="#1a4a8a" opacity="0.2"/>
+          <rect x="90" y="106" width="38" height="10" rx="5" fill="#ddd8cf" opacity="0.6"/>
+          <rect x="133" y="106" width="30" height="10" rx="5" fill="#ddd8cf" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-top">
+          <span class="sb-num">05</span>
+          <span class="sb-tag tag-aid">exploração</span>
+        </div>
+        <p class="sb-title">Provações e aliados</p>
+        <p class="sb-desc">Marina explora o cardápio com fotos e filtros. Filtra por "sem glúten" para a amiga — sem precisar perguntar.</p>
+      </div>
+    </div>
+
+    <!-- Cena 6 -->
+    <div class="sb-card">
+      <div class="sb-scene">
+        <svg viewBox="0 0 220 160" width="220" height="160">
+          <rect x="50" y="20" width="120" height="90" rx="7" fill="none" stroke="#4a4740" stroke-width="1.8"/>
+          <rect x="58" y="34" width="104" height="9" rx="3" fill="#ddd8cf"/>
+          <rect x="58" y="48" width="80" height="8" rx="2.5" fill="#ddd8cf" opacity="0.6"/>
+          <rect x="58" y="60" width="80" height="8" rx="2.5" fill="#ddd8cf" opacity="0.6"/>
+          <rect x="58" y="76" width="104" height="12" rx="4" fill="#e1f0eb" opacity="0.8"/>
+          <text x="110" y="86" text-anchor="middle" font-size="7" fill="#0f5040" font-family="DM Sans, sans-serif">Total: R$ 148,00</text>
+          <rect x="72" y="120" width="76" height="24" rx="12" fill="#1a6e5c" opacity="0.85"/>
+          <text x="110" y="136" text-anchor="middle" font-size="8" fill="white" font-family="DM Sans, sans-serif">Enviar para Cozinha →</text>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-top">
+          <span class="sb-num">06</span>
+          <span class="sb-tag tag-deep">decisivo</span>
+        </div>
+        <p class="sb-title">A caverna mais profunda</p>
+        <p class="sb-desc">Marina revisa o pedido e envia direto para a cozinha. Sem intermediário, sem risco de erro.</p>
+      </div>
+    </div>
+
+    <!-- Cena 7 -->
+    <div class="sb-card">
+      <div class="sb-scene">
+        <svg viewBox="0 0 220 160" width="220" height="160">
+          <rect x="44" y="18" width="132" height="94" rx="7" fill="none" stroke="#4a4740" stroke-width="1.8"/>
+          <text x="110" y="40" text-anchor="middle" font-size="9" fill="#4a4740" font-family="DM Sans, sans-serif">Total: R$ 148,00</text>
+          <line x1="54" y1="50" x2="166" y2="50" stroke="#ddd8cf" stroke-width="0.8"/>
+          <circle cx="82" cy="72" r="16" fill="none" stroke="#8a8680" stroke-width="1.2" opacity="0.5"/>
+          <circle cx="138" cy="72" r="16" fill="none" stroke="#8a8680" stroke-width="1.2" opacity="0.5"/>
+          <text x="82" y="76" text-anchor="middle" font-size="8" fill="#4a4740" font-family="DM Sans, sans-serif">R$74</text>
+          <text x="138" y="76" text-anchor="middle" font-size="8" fill="#4a4740" font-family="DM Sans, sans-serif">R$74</text>
+          <rect x="76" y="98" width="68" height="12" rx="6" fill="#1a4a8a" opacity="0.75"/>
+          <text x="110" y="108" text-anchor="middle" font-size="7.5" fill="white" font-family="DM Sans, sans-serif">PIX — pago ✓</text>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-top">
+          <span class="sb-num">07</span>
+          <span class="sb-tag tag-deep">recompensa</span>
+        </div>
+        <p class="sb-title">A recompensa</p>
+        <p class="sb-desc">Marina divide a conta com a amiga em dois toques e paga por PIX. Sem esperar a maquininha.</p>
+      </div>
+    </div>
+
+    <!-- Cena 8 -->
+    <div class="sb-card">
+      <div class="sb-scene">
+        <svg viewBox="0 0 220 160" width="220" height="160">
+          <text x="26" y="64" font-size="26" fill="#c9952a" font-family="serif">★</text>
+          <text x="58" y="56" font-size="26" fill="#c9952a" font-family="serif">★</text>
+          <text x="90" y="52" font-size="26" fill="#c9952a" font-family="serif">★</text>
+          <text x="124" y="56" font-size="26" fill="#c9952a" font-family="serif">★</text>
+          <text x="156" y="64" font-size="26" fill="#c9952a" font-family="serif">★</text>
+          <circle cx="110" cy="108" r="20" fill="none" stroke="#4a4740" stroke-width="1.8"/>
+          <path d="M102 109 Q110 118 118 109" fill="none" stroke="#4a4740" stroke-width="1.8"/>
+          <circle cx="104" cy="104" r="2" fill="#4a4740"/>
+          <circle cx="116" cy="104" r="2" fill="#4a4740"/>
+        </svg>
+      </div>
+      <div class="sb-body">
+        <div class="sb-top">
+          <span class="sb-num">08</span>
+          <span class="sb-tag tag-return">retorno</span>
+        </div>
+        <p class="sb-title">O caminho de volta</p>
+        <p class="sb-desc">Marina avalia 5 estrelas e sai transformada: já sabe que vai voltar — e vai recomendar.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ROTEIRO -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-info">
+      <p class="section-label">Roteiro narrativo</p>
+      <h2 class="section-title">A jornada completa</h2>
+    </div>
+  </div>
+
+  <div class="acts">
+
+    <div class="act-block">
+      <div class="act-left">
+        <span class="act-num">01</span>
+        <span class="sb-tag tag-aid" style="font-size:0.65rem; padding:4px 10px;">mundo comum</span>
+      </div>
+      <div class="act-right">
+        <h3 class="act-title">O mundo comum</h3>
+        <p class="act-text">Marina Sousa, 34 anos, consultora, chega ao Haus Restaurante num sábado à noite com uma amiga. Depois de uma semana de reuniões e entregas, ela estava animada para relaxar, conversar e comer bem. O restaurante tinha um ambiente bonito — música suave, iluminação quente, mesas bem decoradas. Tudo parecia prometedor.</p>
+      </div>
+    </div>
+
+    <div class="act-block">
+      <div class="act-left">
+        <span class="act-num">02</span>
+        <span class="sb-tag tag-conflict" style="font-size:0.65rem; padding:4px 10px;">conflito</span>
+      </div>
+      <div class="act-right">
+        <h3 class="act-title">O chamado à aventura</h3>
+        <p class="act-text">Mas algo atrapalha: os garçons estão visivelmente sobrecarregados. Marina acena três vezes ao longo de dez minutos sem ser atendida. A fome aumenta. A animação da noite começa a ceder espaço para frustração. Ela olha ao redor e vê outras mesas na mesma situação. O que devia ser um momento de descanso estava virando mais um problema para resolver.</p>
+      </div>
+    </div>
+
+    <div class="act-block">
+      <div class="act-left">
+        <span class="act-num">03</span>
+        <span class="sb-tag tag-call" style="font-size:0.65rem; padding:4px 10px;">chamado</span>
+      </div>
+      <div class="act-right">
+        <h3 class="act-title">O mentor aparece</h3>
+        <p class="act-text">É quando Marina percebe, acoplado à extremidade da mesa, um tablet elegante que ela havia ignorado ao se sentar. A tela exibe uma mensagem simples: "Bem-vindo à sua mesa — escolha uma opção para começar." A interface era limpa, os ícones eram grandes e claros. Marina hesita por um segundo — mas a curiosidade, e a fome, vencem a resistência.</p>
+      </div>
+    </div>
+
+    <div class="act-block">
+      <div class="act-left">
+        <span class="act-num">04</span>
+        <span class="sb-tag tag-aid" style="font-size:0.65rem; padding:4px 10px;">limiar</span>
+      </div>
+      <div class="act-right">
+        <h3 class="act-title">A travessia do limiar</h3>
+        <p class="act-text">Marina toca em "Chamar o Garçom". Em segundos, uma confirmação aparece na tela: "Alerta enviado ao garçom da mesa 07." Pela primeira vez na noite, Marina sente que tem controle sobre sua própria experiência. Não dependeu de sorte, de insistência, nem de levantar o braço mais uma vez. Ela agiu — e funcionou.</p>
+      </div>
+    </div>
+
+    <div class="act-block">
+      <div class="act-left">
+        <span class="act-num">05</span>
+        <span class="sb-tag tag-aid" style="font-size:0.65rem; padding:4px 10px;">exploração</span>
+      </div>
+      <div class="act-right">
+        <h3 class="act-title">Provações e aliados</h3>
+        <p class="act-text">Enquanto espera o garçom, Marina abre o cardápio digital. As fotos são de alta qualidade, os preços aparecem com clareza, e há filtros por categoria. Ela lembra que a amiga tem intolerância ao glúten — e com dois toques, filtra apenas os pratos adequados. Sem precisar perguntar, sem constrangimento, sem depender de nenhum intermediário para descobrir o que era seguro comer.</p>
+      </div>
+    </div>
+
+    <div class="act-block">
+      <div class="act-left">
+        <span class="act-num">06</span>
+        <span class="sb-tag tag-deep" style="font-size:0.65rem; padding:4px 10px;">decisivo</span>
+      </div>
+      <div class="act-right">
+        <h3 class="act-title">A caverna mais profunda</h3>
+        <p class="act-text">Com o pedido montado, Marina revisa tudo na tela e toca "Enviar para Cozinha". O pedido vai direto, sem intermediário, sem risco de alguém anotar errado ou esquecer uma observação. Marina e a amiga olham uma para a outra com aquela sensação de "foi fácil demais". O problema que parecia banal — pedir comida num restaurante — havia sido resolvido com dignidade.</p>
+      </div>
+    </div>
+
+    <div class="act-block">
+      <div class="act-left">
+        <span class="act-num">07</span>
+        <span class="sb-tag tag-deep" style="font-size:0.65rem; padding:4px 10px;">recompensa</span>
+      </div>
+      <div class="act-right">
+        <h3 class="act-title">A recompensa</h3>
+        <p class="act-text">A comida foi ótima. Na hora de ir embora, Marina abre "Pedir a Conta", visualiza o total e divide o valor com a amiga em dois toques. Paga por PIX ali mesmo — sem esperar a maquininha, sem chamar ninguém, sem aquela dança constrangedora de quem paga primeiro. Em menos de um minuto, tudo está resolvido.</p>
+      </div>
+    </div>
+
+    <div class="act-block">
+      <div class="act-left">
+        <span class="act-num">08</span>
+        <span class="sb-tag tag-return" style="font-size:0.65rem; padding:4px 10px;">retorno</span>
+      </div>
+      <div class="act-right">
+        <h3 class="act-title">O caminho de volta — transformada</h3>
+        <p class="act-text">Antes de sair, Marina toca em "Avaliar o Atendimento" e dá 5 estrelas para comida, serviço e ambiente. Ela sai do restaurante diferente de como entrou: não apenas satisfeita com a refeição, mas com a experiência como um todo. No carro, ela comenta com a amiga: "Nunca mais aguento restaurante sem isso." A heroína voltou ao seu mundo — mas agora com um padrão diferente de experiência.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ihc-note">
+    <p class="ihc-note-label">Conexão com IHC</p>
+    <p class="ihc-note-text">
+      A Mesa Interativa não substitui o garçom — ela resolve o problema que está na <strong>raiz da frustração do usuário: a espera passiva e a falta de controle</strong>. Cada funcionalidade da interface foi mapeada para uma necessidade real identificada na persona: o botão "Chamar Garçom" atende à heurística de <strong>controle e liberdade do usuário</strong> (Nielsen #3); o cardápio com filtros resolve o problema de <strong>acessibilidade para diferentes dietas</strong>; a divisão de conta elimina <strong>fricção cognitiva e social</strong> no momento do pagamento. O design minimalista da tela inicial — seis botões com ícones e descrições curtas — respeita os princípios de <strong>reconhecimento em vez de memorização</strong> e <strong>consistência visual</strong>. A experiência de Marina ilustra como uma interface bem projetada transforma um momento de frustração em autonomia — e autonomia em fidelidade.
+    </p>
+  </div>
+</div>
+
+<footer>
+  Mesa Interativa — Haus Restaurante · IHC 2026 · CESAR School · Prof. Msc Ricardo Baudel
+</footer>
+
+</body>
+</html>
