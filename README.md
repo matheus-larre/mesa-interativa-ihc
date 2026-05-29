@@ -1,15 +1,14 @@
 # Mesa Interativa — Haus Restaurante 🍽️
 
-> Projeto de Storytelling e Prototipação Interativa desenvolvido para a disciplina de **Interação Humano-Computador (IHC)** no **CESAR School**. Atividade prática da Unidade 2 (IHC 2026).
+> Projeto de Storytelling e Prototipação Interativa desenvolvido para a disciplina de **Interação Humano-Computador (IHC)** no **CESAR School**. Trabalho realizado ao longo das **Unidades 1 e 2** (IHC 2026).
 
 ---
 
 ## 📖 Sobre o Projeto
-Este repositório contém o desenvolvimento de uma **Mesa Interativa** voltada para otimizar a experiência em restaurantes de alta gastronomia. O foco do projeto foi resolver problemas de espera passiva e falta de controle do usuário, utilizando princípios de Design de Interação e Heurísticas de Usabilidade.
+Este repositório contém o desenvolvimento de uma **Mesa Interativa** voltada para otimizar a experiência em restaurantes de alta gastronomia. O projeto foi construído em etapas:
 
-O projeto é dividido em duas partes principais:
-1. **Storytelling Digital:** Uma narrativa visual e textual baseada na *Jornada do Herói*, ilustrando a transformação da experiência de uma persona real.
-2. **Protótipo Interativo:** Um sistema funcional simulado em tablet que permite realizar pedidos, chamar o garçom, dividir a conta e avaliar o atendimento.
+1. **Unidade 1 - Protótipo Interativo:** Desenvolvimento do sistema funcional simulado em tablet que permite realizar pedidos, chamar o garçom, dividir a conta e avaliar o atendimento. Foco em usabilidade e fluxos de interface.
+2. **Unidade 2 - Storytelling e Experiência:** Criação de uma narrativa digital baseada na *Jornada do Herói*, produção de vídeo demonstrativo e estruturação final do ecossistema de deploy para apresentar a transformação da experiência do usuário.
 
 ## 👤 Persona
 **Marina Sousa (34 anos):** Consultora de negócios impaciente com processos lentos, que valoriza autonomia e eficiência tecnológica em suas experiências gastronômicas.
