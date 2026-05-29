@@ -461,6 +461,47 @@
     .cover-meta { flex-wrap: wrap; gap: 1rem; }
     .ihc-note { padding: 1.75rem; }
   }
+
+  /* ── CTA ── */
+  .cta-container {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 0 5rem;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--accent);
+    color: white;
+    padding: 1.1rem 2.8rem;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(184, 67, 26, 0.2);
+    border: none;
+    cursor: pointer;
+  }
+
+  .cta-button:hover {
+    background: var(--accent2);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(184, 67, 26, 0.3);
+  }
+
+  .cta-button svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .cta-button:hover svg {
+    transform: translateX(5px);
+  }
 </style>
 </head>
 <body>
@@ -846,6 +887,16 @@
     <p class="ihc-note-text">
       A Mesa Interativa não substitui o garçom — ela resolve o problema que está na <strong>raiz da frustração do usuário: a espera passiva e a falta de controle</strong>. Cada funcionalidade da interface foi mapeada para uma necessidade real identificada na persona: o botão "Chamar Garçom" atende à heurística de <strong>controle e liberdade do usuário</strong> (Nielsen #3); o cardápio com filtros resolve o problema de <strong>acessibilidade para diferentes dietas</strong>; a divisão de conta elimina <strong>fricção cognitiva e social</strong> no momento do pagamento. O design minimalista da tela inicial — seis botões com ícones e descrições curtas — respeita os princípios de <strong>reconhecimento em vez de memorização</strong> e <strong>consistência visual</strong>. A experiência de Marina ilustra como uma interface bem projetada transforma um momento de frustração em autonomia — e autonomia em fidelidade.
     </p>
+  </div>
+
+  <div class="cta-container">
+    <a href="mesa-interativa-prototipo/index.html" class="cta-button">
+      Experimentar Protótipo Interativo
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
   </div>
 </div>
 
