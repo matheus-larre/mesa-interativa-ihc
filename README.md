@@ -1,6 +1,6 @@
 # Mesa Interativa — Haus Restaurante 🍽️
 
-> Projeto de Storytelling e Prototipação Interativa desenvolvido para a disciplina de **Interação Humano-Computador (IHC)** no **CESAR School**. Trabalho realizado ao longo das **Unidades 1 e 2** (IHC 2026).
+> Projeto de Storytelling e Prototipação Interativa desenvolvido para a disciplina de **Interface Humano Computador (IHC)** no **CESAR School**. Trabalho realizado ao longo das **Unidades 1 e 2** (IHC 2026).
 
 ---
 
