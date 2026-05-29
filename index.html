@@ -502,6 +502,23 @@
   .cta-button:hover svg {
     transform: translateX(5px);
   }
+
+  /* ── VIDEO ── */
+  .video-container {
+    background: var(--ink);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
 </style>
 </head>
 <body>
@@ -780,10 +797,30 @@
 
 <div class="divider"></div>
 
-<!-- ROTEIRO -->
+<!-- VIDEO -->
 <div class="section">
   <div class="section-header">
     <div class="section-num">02</div>
+    <div class="section-info">
+      <p class="section-label">Vídeo</p>
+      <h2 class="section-title">A Experiência em Movimento</h2>
+    </div>
+  </div>
+
+  <div class="video-container">
+    <video controls poster="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80">
+      <source src="assets/storytelling-video.mp4" type="video/mp4">
+      Seu navegador não suporta vídeos.
+    </video>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ROTEIRO -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">03</div>
     <div class="section-info">
       <p class="section-label">Roteiro narrativo</p>
       <h2 class="section-title">A jornada completa</h2>
