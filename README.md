@@ -35,7 +35,7 @@ Este repositório contém o desenvolvimento de uma **Mesa Interativa** voltada p
 
 ## 🔗 Como Acessar
 O projeto está configurado para deploy automático. Você pode visualizar a experiência completa através do link:
-*[(https://matheus-larre.github.io/mesa-interativa-ihc/)]*
+*https://matheus-larre.github.io/mesa-interativa-ihc*
 
 ---
 *Este projeto foi desenvolvido para fins acadêmicos como parte do currículo de IHC do CESAR School.*
